@@ -27,9 +27,12 @@ class Operator(object):
         return self.filter(column, self.convert(column, value))
 
     def convert(self, column, value):
-        converter = converters.get(utils._column_type(column), default_converter)
+        column_type = utils._column_type(column)
         try:
-            return converter(value)
+            if column_type in converters:
+                return converters.get(column_type)(value)
+            else:
+                return default_converter(column, value)
         except Exception as error:
             raise InvalidAPIUsage(422)
 
