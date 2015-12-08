@@ -14,7 +14,7 @@ from sandman.exception import InvalidAPIUsage
 
 converters = {
     datetime.datetime: parse_date,
-    datetime.date: lambda value: parse_date(value).date,
+    datetime.date: lambda value: parse_date(value).date(),
 }
 def default_converter(column, value):
     column_type = utils._column_type(column)
@@ -29,7 +29,7 @@ class Operator(object):
     def convert(self, column, value):
         converter = converters.get(utils._column_type(column), default_converter)
         try:
-            return converter(column, value)
+            return converter(value)
         except Exception as error:
             raise InvalidAPIUsage(422)
 
