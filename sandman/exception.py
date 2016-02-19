@@ -1,8 +1,9 @@
 """Exception specifications for Sandman"""
 
 from flask import make_response, render_template
+from werkzeug.exceptions import HTTPException
 
-class InvalidAPIUsage(Exception):
+class InvalidAPIUsage(HTTPException):
     """Excecption which generates a :class:`flask.Response` object whose
     *data* is JSON rather than HTML"""
 
